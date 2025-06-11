@@ -53,11 +53,11 @@ module.exports = {
 
   // # createProduction
   async createProduction(req, res) {
-    const { safra, area_ha, areaproducao, data, nomepropriedade, cultura } = req.body;
+    const { safra, areaproducao, data, nomepropriedade, cultura } = req.body;
     console.log('➡️ Requisição recebida para criar uma nova produção');
     console.log('📦 Dados recebidos:', req.body);
 
-    if (!safra || !area_ha || !areaproducao || !data || !nomepropriedade || !cultura) {
+    if (!safra || !areaproducao || !data || !nomepropriedade || !cultura) {
       console.warn('⚠️ Campos obrigatórios para criar produção ausentes.');
       return res.status(400).json({ error: 'Por favor, preencha todos os campos obrigatórios: safra, área em hectares, área de produção, data, nome da propriedade e cultura.' });
     }
@@ -66,7 +66,6 @@ module.exports = {
       const newProduction = await prisma.producao.create({
         data: {
           safra,
-          area_ha,
           areaproducao,
           data: new Date(data),
           cultura,
@@ -96,7 +95,7 @@ module.exports = {
   // # updateProduction
   async updateProduction(req, res) {
     const { id } = req.params;
-    const { safra, area_ha, areaproducao, data, nomepropriedade, cultura } = req.body;
+    const { safra, areaproducao, data, nomepropriedade, cultura } = req.body;
     console.log(`➡️ Requisição recebida para atualizar produção com ID: "${id}"`);
     console.log('📦 Dados de atualização:', req.body);
 
@@ -113,7 +112,6 @@ module.exports = {
         },
         data: {
           safra,
-          area_ha,
           areaproducao,
           ...(data && { data: new Date(data) }),
           cultura,

@@ -34,7 +34,6 @@ model producao {
   areaproducao    Float
   data            DateTime
   nomepropriedade String
-  area_ha         Int         @map("area_ha")
   cultura         String
   id              Int         @id @default(autoincrement())
   propriedade     propriedade @relation(fields: [nomepropriedade], references: [nomepropriedade])
