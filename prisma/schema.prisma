@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model usuario {
+  id           String        @id @default(uuid())
+  nome         String
+  email        String        @unique
+  telefone     String?
+  senha        String
+  propriedades propriedade[]
+}
+
+model propriedade {
+  nomepropriedade String       @id @unique
+  areaproducao    Float
+  localizacao     String
+  usuarioId       String
+  area_ha         Int          @map("area_ha")
+  financeiros     financeiro[]
+  producoes       producao[]
+  usuario         usuario      @relation(fields: [usuarioId], references: [id])
+
+  @@map("propriedade")
+}
+
+model producao {
+  safra           String
+  areaproducao    Float
+  data            DateTime
+  nomepropriedade String
+  area_ha         Int         @map("area_ha")
+  cultura         String
+  id              Int         @id @default(autoincrement())
+  propriedade     propriedade @relation(fields: [nomepropriedade], references: [nomepropriedade])
+
+  @@map("producao")
+}
+
+model financeiro {
+  nomepropriedade String
+  descricao       String
+  valor           Float
+  data            DateTime
+  tipo            String
+  id              Int         @id @default(autoincrement())
+  propriedade     propriedade @relation(fields: [nomepropriedade], references: [nomepropriedade])
+
+  @@map("financeiro")
+}
